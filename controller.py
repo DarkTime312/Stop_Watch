@@ -37,7 +37,7 @@ class StopWatchController:
 
     def reset(self):
         self.model.reset()
-        self.view.reset()
+        self.view.reset_app()
 
     def create_lap(self):
         elapsed_time = self.model.get_elapsed_time()

@@ -32,6 +32,9 @@ def format_time(total_seconds: float) -> tuple[str, int]:
 class StopWatchView(ctk.CTk):
     def __init__(self):
         super().__init__(fg_color=BLACK)
+        self.buttons_frame = None
+        self.clock = None
+        self.lap_frame = None
         ctk.set_appearance_mode('dark')
         # Window setup
         self.title('')
@@ -64,9 +67,12 @@ class StopWatchView(ctk.CTk):
 
         self.columnconfigure(0, weight=1, uniform='b')
 
-    def reset(self):
+    def reset_app(self):
+        # Reset the clock handle
         self.clock.reset_clock_handle()
+        # Reset the laps
         self.lap_frame.reset_lap_frame()
+        # Reset the buttons state
         self.buttons_frame.reset()
 
 
@@ -77,50 +83,79 @@ class Clock(Canvas):
                          highlightthickness=0,
                          bd=0,
                          )
+        self.clock_handle_tk = None
+        self.canvas_height = None
+        self.canvas_width = None
+        self.clock_handle = None
+        self.clock_img_tk = None
+        self.center_y = None
+        self.center_x = None
         self.grid(row=0, column=0, sticky='nsew')
         self.text_id: None | int = None
 
         self.bind('<Configure>', self.configure_window)
 
     def configure_window(self, event):
-        canvas_width: int = event.width
-        canvas_height: int = event.height
-
-        self.center_x: int = canvas_width // 2
-        self.center_y: int = canvas_height // 2
+        # Get the dimensions of the canvas
+        self.canvas_width: int = event.width
+        self.canvas_height: int = event.height
+        # Find the center point of the canvas
+        self.center_x: int = self.canvas_width // 2
+        self.center_y: int = self.canvas_height // 2
+        # add the clock and clock handle to the screen
         self.create_clock()
 
     def create_clock(self):
-        self.clock_img = ImageTk.PhotoImage(Image.open('assets/clock_project.png').resize((285, 285)))
+        # Resize the clock picture and convert it to ImageTk
+        clock_img = Image.open('assets/clock_project.png').resize((self.canvas_width - 15, self.canvas_height - 15))
+        self.clock_img_tk = ImageTk.PhotoImage(clock_img)
+        # Resize the clock handle photo and then rotate it 90 degrees
+        # To place it at 12 O'clock
         self.clock_handle = Image.open('assets/clock_handle.png')
-        self.clock_handle = self.clock_handle.resize((230, 230))
+        self.clock_handle = self.clock_handle.resize((self.canvas_width - 70, self.canvas_width - 70))
         self.clock_handle = self.clock_handle.rotate(90,
                                                      resample=Image.BICUBIC,
                                                      expand=True
                                                      )
-        self.create_image(self.center_x, self.center_y, image=self.clock_img, anchor='center')
+        # Place the clock picture on the screen
+        self.create_image(self.center_x, self.center_y, image=self.clock_img_tk, anchor='center')
+        # Place the clock handle at start position
         self.reset_clock_handle()
 
-    def update_clock(self, elapsed_seconds):
-        second: float = elapsed_seconds * -6
-        rotated_img = self.clock_handle.rotate(second,
+    def update_clock(self, elapsed_seconds: float):
+        # Rotate the handle image based on the elapsed time
+        # Each second equals to 6 degrees
+        # Had to be negative number to achieve the clockwise rotation
+        rotation_degree: float = elapsed_seconds * -6
+        rotated_img = self.clock_handle.rotate(rotation_degree,
                                                resample=Image.BICUBIC,
                                                expand=True)
-        text, font_size = format_time(elapsed_seconds)
+        # Convert the image to ImageTk
         self.clock_handle_tk = ImageTk.PhotoImage(rotated_img)
+
+        # Get the font size and formated text for the elapsed time label
+        text, font_size = format_time(elapsed_seconds)
+        # Delete the previous label
         self.delete(self.text_id)
+        # Place the text on the screen
         self.text_id = self.create_text(self.center_x, self.center_y + 50, text=text, fill='red',
                                         font=(TEXT_FONT, font_size, 'bold'))
-
+        # Update the clock handle position
         self.create_image(self.center_x, self.center_y, image=self.clock_handle_tk, anchor='center')
 
     def reset_clock_handle(self):
+        # Reset the position of clock handle
         self.update_clock(0)
 
 
 class ButtonsFrame(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(master=parent, fg_color='transparent')
+        self.reset_button = None
+        self.stop_button = None
+        self.start_button = None
+        self.lap_button = None
+
         self.grid(row=1, column=0, sticky='nsew', padx=5)
         self.set_layout()
         self.create_widgets()
@@ -164,54 +199,72 @@ class ButtonsFrame(ctk.CTkFrame):
                                           hover_color=ORANGE_HIGHLIGHT,
                                           font=font,
                                           )
-
+        # Only add start and lap buttons to the screen
         self.lap_button.grid(row=0, column=0, sticky='nsew', padx=10)
         self.start_button.grid(row=0, column=1, sticky='nsew', padx=10)
 
     def start(self) -> None:
+        # When user pressed the start button
+        # Remove the start and reset buttons from screen
         self.start_button.grid_forget()
         self.reset_button.grid_forget()
+        # Add the stop and lap buttons
         self.stop_button.grid(row=0, column=1, sticky='nsew', padx=10)
         self.lap_button.grid(row=0, column=0, sticky='nsew', padx=10)
+        # Change the state  and color of lap button
         self.lap_button.configure(state='normal', fg_color=ORANGE_DARK)
 
     #
     def stop(self) -> None:
+        # When user pressed the stop button
+        # Remove the stop and lap buttons from screen
         self.stop_button.grid_forget()
         self.lap_button.grid_forget()
+        # Add the start and reset buttons
         self.start_button.grid(row=0, column=1, sticky='nsew', padx=10)
         self.reset_button.grid(row=0, column=0, sticky='nsew', padx=10)
 
-    def reset(self):
+    def reset(self) -> None:
+        # When user pressed the stop button
+        # Remove the reset button from screen
         self.reset_button.grid_forget()
+        # Add the lap button
         self.lap_button.grid(row=0, column=0, sticky='nsew', padx=10)
+        # Change the color and state of lap button
         self.lap_button.configure(state='disabled', fg_color=GREY)
 
 
 class LapsFrame(ctk.CTkScrollableFrame):
-    def __init__(self, parent):
+    def __init__(self, parent) -> None:
         super().__init__(master=parent, fg_color='transparent')
+        self.lap_number = None
         self.grid(row=2, column=0, sticky='nsew')
-        # Hide the scrollbar until needed
-        self._scrollbar.configure(width=0)
-        self.lap_number = 0
+        self.reset_lap_frame()
 
     def create_lap_object(self, lap_time: float) -> None:
+        # Increment the number of laps
         self.lap_number += 1
-        # Now that frame is getting large enough, bring back the scrollbar
+        # If frame is large enough, bring back the scrollbar
         if self.lap_number > 5:
             self._scrollbar.configure(width=16)
+
+        # Get the formatted time 
         formatted_time: str = format_time(lap_time)[0]
+        # Create the lap object
         LapObject(self, self.lap_number, formatted_time)
 
-    def reset_lap_frame(self):
+    def reset_lap_frame(self) -> None:
+        # Set the number of laps to 0
         self.lap_number = 0
+        # Hide the scrollbar until needed
+        self._scrollbar.configure(width=0)
+        # Remove the previous lap objects if they exist.
         for widget in self.winfo_children():
             widget.destroy()
 
 
 class LapObject(ctk.CTkFrame):
-    def __init__(self, parent, lap_number, formatted_time):
+    def __init__(self, parent, lap_number: int, formatted_time: str) -> None:
         super().__init__(master=parent, fg_color='transparent')
         self.lap_number = lap_number
         self.formatted_time = formatted_time
@@ -220,17 +273,19 @@ class LapObject(ctk.CTkFrame):
         self.set_layout()
         self.create_widgets()
 
-    def set_layout(self):
+    def set_layout(self) -> None:
         self.rowconfigure(0, weight=1, uniform='a')
         self.columnconfigure((0, 1), weight=1, uniform='b')
 
-    def create_widgets(self):
-        font = (TEXT_FONT, CLOCK_FONT_SIZE)
+    def create_widgets(self) -> None:
+        font: tuple[str, int] = (TEXT_FONT, CLOCK_FONT_SIZE)
+        # A label that shows which lap we're on
         ctk.CTkLabel(self,
                      text=f'Lap {self.lap_number}',
                      text_color=WHITE, anchor='w',
                      font=font
                      ).grid(row=0, column=0, sticky='nsew')
+        # A label that shows the lap time
         ctk.CTkLabel(self,
                      text=self.formatted_time,
                      text_color=WHITE,
