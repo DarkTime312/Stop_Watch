@@ -1,15 +1,13 @@
+# view.py
+import customtkinter as ctk
+from tkinter import Canvas
+from PIL import Image, ImageTk
+from settings import *
+
 try:
     from ctypes import windll, byref, sizeof, c_int
 except:
     pass
-from typing import Callable
-from time import time
-from tkinter import Canvas
-
-import customtkinter as ctk
-from PIL import Image, ImageTk
-
-from settings import *
 
 
 def format_time(total_seconds: float) -> tuple[str, int]:
@@ -31,10 +29,9 @@ def format_time(total_seconds: float) -> tuple[str, int]:
     return output_text, font_size
 
 
-class StopWatch(ctk.CTk):
+class StopWatchView(ctk.CTk):
     def __init__(self):
         super().__init__(fg_color=BLACK)
-        # Force dark mode
         ctk.set_appearance_mode('dark')
         # Window setup
         self.title('')
@@ -43,18 +40,13 @@ class StopWatch(ctk.CTk):
         self.resizable(False, False)
 
         self.change_title_bar_color()
-        self.bind('<<StartApp>>', self.initialize)
-
         self.set_layout()
-        self.initialize()
+        self.create_widgets()
 
-    def initialize(self, event=None):
-        for widget in self.winfo_children():
-            widget.destroy()
-
+    def create_widgets(self):
         self.lap_frame = LapsFrame(self)
-        self.clock = Clock(self, self.lap_frame)
-        ButtonsFrame(self, self.clock.start, self.clock.stop, self.clock.create_lap)
+        self.clock = Clock(self)
+        self.buttons_frame = ButtonsFrame(self)
 
     def change_title_bar_color(self):
         try:
@@ -72,21 +64,22 @@ class StopWatch(ctk.CTk):
 
         self.columnconfigure(0, weight=1, uniform='b')
 
+    def reset(self):
+        self.clock.update_clock(0)
+        self.lap_frame.destroy()
+        self.lap_frame = LapsFrame(self)
+        self.buttons_frame.reset()
+
 
 class Clock(Canvas):
-    def __init__(self, parent, lap_frame):
+    def __init__(self, parent):
         super().__init__(master=parent,
                          bg=BLACK,
                          highlightthickness=0,
                          bd=0,
                          )
-        self.time_stopped: None | float = None
         self.grid(row=0, column=0, sticky='nsew')
         self.text_id: None | int = None
-        self.offsets: list[float] = []
-        self.offset_time: float = 0
-        self.lap_frame = lap_frame
-        self.clock_is_active = ctk.BooleanVar(value=False)
 
         self.bind('<Configure>', self.configure_window)
 
@@ -110,55 +103,23 @@ class Clock(Canvas):
         self.clock_handle_tk = ImageTk.PhotoImage(self.clock_handle)
         self.create_image(self.center_x, self.center_y, image=self.clock_handle_tk, anchor='center')
 
-    def start(self):
-        self.clock_is_active.set(True)
+    def update_clock(self, elapsed_seconds):
+        second: float = elapsed_seconds * -6
+        rotated_img = self.clock_handle.rotate(second,
+                                               resample=Image.BICUBIC,
+                                               expand=True)
+        text, font_size = format_time(elapsed_seconds)
+        self.clock_handle_tk = ImageTk.PhotoImage(rotated_img)
+        self.delete(self.text_id)
+        self.text_id = self.create_text(self.center_x, self.center_y + 50, text=text, fill='red',
+                                        font=(TEXT_FONT, font_size, 'bold'))
 
-        if self.time_stopped:
-            now: float = time()
-            self.offsets.append(now - self.time_stopped)
-            # print(self.offsets)
-            self.animate_clock(offset=sum(self.offsets))
-        else:
-            # print('No offset')
-            self.start_time = time()
-            self.animate_clock()
-
-    def stop(self):
-        self.time_stopped = time()
-        # print(f'{self.time_stopped=}')
-        self.clock_is_active.set(False)
-
-    def animate_clock(self, offset=0):
-        # print(f'{offset=}')
-        if self.clock_is_active.get():
-            self.time_ = time() - self.start_time - offset
-            second: float = self.time_ * -6
-            rotated_img = self.clock_handle.rotate(second,
-                                                   resample=Image.BICUBIC,
-                                                   expand=True)
-            # self.handle_degree -= 6
-            text, font_size = format_time(self.time_)
-            self.clock_handle_tk = ImageTk.PhotoImage(rotated_img)
-            self.delete(self.text_id)
-            self.text_id = self.create_text(self.center_x, self.center_y + 50, text=text, fill='red',
-                                            font=(TEXT_FONT, font_size, 'bold'))
-
-            self.create_image(self.center_x, self.center_y, image=self.clock_handle_tk, anchor='center')
-
-            self.after(REFRESH_RATE, lambda: self.animate_clock(offset=offset))
-
-    # def get_current_elapsed_time(self):
-    #     return humanize_seconds(self.time_)[0]
-    def create_lap(self):
-        self.lap_frame.create_lap_object(self.time_)
+        self.create_image(self.center_x, self.center_y, image=self.clock_handle_tk, anchor='center')
 
 
 class ButtonsFrame(ctk.CTkFrame):
-    def __init__(self, parent, start_func, stop_func, lap_func):
+    def __init__(self, parent):
         super().__init__(master=parent, fg_color='transparent')
-        self.start_func: Callable = start_func
-        self.stop_func: Callable = stop_func
-        self.lap_func: Callable = lap_func
         self.grid(row=1, column=0, sticky='nsew', padx=5)
         self.set_layout()
         self.create_widgets()
@@ -177,7 +138,7 @@ class ButtonsFrame(ctk.CTkFrame):
                                         font=font,
                                         text_color_disabled='#bdbdbd',
                                         state='disabled',
-                                        command=self.lap_func)
+                                        )
 
         self.start_button = ctk.CTkButton(self,
                                           text='Start',
@@ -185,7 +146,7 @@ class ButtonsFrame(ctk.CTkFrame):
                                           text_color=GREEN_TEXT,
                                           hover_color=GREEN_HIGHLIGHT,
                                           font=font,
-                                          command=self.pressed_start)
+                                          )
 
         self.stop_button = ctk.CTkButton(self,
                                          text='Stop',
@@ -193,7 +154,7 @@ class ButtonsFrame(ctk.CTkFrame):
                                          text_color=RED_TEXT,
                                          hover_color=RED_HIGHLIGHT,
                                          font=font,
-                                         command=self.pressed_stop)
+                                         )
 
         self.reset_button = ctk.CTkButton(self,
                                           text='Reset',
@@ -201,31 +162,29 @@ class ButtonsFrame(ctk.CTkFrame):
                                           text_color=ORANGE_DARK_TEXT,
                                           hover_color=ORANGE_HIGHLIGHT,
                                           font=font,
-                                          command=self.reset_pressed)
+                                          )
 
         self.lap_button.grid(row=0, column=0, sticky='nsew', padx=10)
         self.start_button.grid(row=0, column=1, sticky='nsew', padx=10)
 
-    def pressed_start(self) -> None:
-        self.start_func()
+    def start(self) -> None:
         self.start_button.grid_forget()
         self.reset_button.grid_forget()
         self.stop_button.grid(row=0, column=1, sticky='nsew', padx=10)
         self.lap_button.grid(row=0, column=0, sticky='nsew', padx=10)
         self.lap_button.configure(state='normal', fg_color=ORANGE_DARK)
 
-    def pressed_stop(self) -> None:
-        self.stop_func()
+    #
+    def stop(self) -> None:
         self.stop_button.grid_forget()
         self.lap_button.grid_forget()
         self.start_button.grid(row=0, column=1, sticky='nsew', padx=10)
         self.reset_button.grid(row=0, column=0, sticky='nsew', padx=10)
 
-    def reset_pressed(self) -> None:
-        self.event_generate('<<StartApp>>')
-
-    def lap_pressed(self) -> None:
-        self.lap_func()
+    def reset(self):
+        self.reset_button.grid_forget()
+        self.lap_button.grid(row=0, column=0, sticky='nsew', padx=10)
+        self.lap_button.configure(state='disabled', fg_color=GREY)
 
 
 class LapsFrame(ctk.CTkScrollableFrame):
@@ -272,8 +231,3 @@ class LapObject(ctk.CTkFrame):
                      anchor='e',
                      font=font
                      ).grid(row=0, column=1, sticky='nsew')
-
-
-if __name__ == '__main__':
-    app = StopWatch()
-    app.mainloop()
