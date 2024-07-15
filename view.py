@@ -65,9 +65,8 @@ class StopWatchView(ctk.CTk):
         self.columnconfigure(0, weight=1, uniform='b')
 
     def reset(self):
-        self.clock.update_clock(0)
-        self.lap_frame.destroy()
-        self.lap_frame = LapsFrame(self)
+        self.clock.reset_clock_handle()
+        self.lap_frame.reset_lap_frame()
         self.buttons_frame.reset()
 
 
@@ -100,8 +99,7 @@ class Clock(Canvas):
                                                      expand=True
                                                      )
         self.create_image(self.center_x, self.center_y, image=self.clock_img, anchor='center')
-        self.clock_handle_tk = ImageTk.PhotoImage(self.clock_handle)
-        self.create_image(self.center_x, self.center_y, image=self.clock_handle_tk, anchor='center')
+        self.reset_clock_handle()
 
     def update_clock(self, elapsed_seconds):
         second: float = elapsed_seconds * -6
@@ -115,6 +113,9 @@ class Clock(Canvas):
                                         font=(TEXT_FONT, font_size, 'bold'))
 
         self.create_image(self.center_x, self.center_y, image=self.clock_handle_tk, anchor='center')
+
+    def reset_clock_handle(self):
+        self.update_clock(0)
 
 
 class ButtonsFrame(ctk.CTkFrame):
@@ -198,10 +199,15 @@ class LapsFrame(ctk.CTkScrollableFrame):
     def create_lap_object(self, lap_time: float) -> None:
         self.lap_number += 1
         # Now that frame is getting large enough, bring back the scrollbar
-        if self.lap_number > 6:
+        if self.lap_number > 5:
             self._scrollbar.configure(width=16)
         formatted_time: str = format_time(lap_time)[0]
         LapObject(self, self.lap_number, formatted_time)
+
+    def reset_lap_frame(self):
+        self.lap_number = 0
+        for widget in self.winfo_children():
+            widget.destroy()
 
 
 class LapObject(ctk.CTkFrame):

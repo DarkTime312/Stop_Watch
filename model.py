@@ -5,20 +5,20 @@ import customtkinter as ctk
 
 class StopWatchModel:
     def __init__(self):
-        self.offset = 0
+        self.offset_time: float = 0
         self.clock_is_active = ctk.BooleanVar(value=False)
         self.time_stopped: None | float = None
         self.offsets: list[float] = []
         self.start_time = 0
 
     def get_elapsed_time(self):
-        return time() - self.start_time - self.offset
+        return time() - self.start_time - self.offset_time
 
     def check_for_offset(self):
         if self.time_stopped:
             now: float = time()
             self.offsets.append(now - self.time_stopped)
-            self.offset = sum(self.offsets)
+            self.offset_time = sum(self.offsets)
         else:
             self.get_start_time()
 
@@ -29,7 +29,7 @@ class StopWatchModel:
         self.time_stopped = time()
 
     def reset(self):
-        self.offset = 0
+        self.offset_time = 0
         self.clock_is_active = ctk.BooleanVar(value=False)
         self.time_stopped: None | float = None
         self.offsets: list[float] = []
