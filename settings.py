@@ -3,8 +3,6 @@ from typing import Final
 SECONDS_IN_MINUTE: Final[int] = 60
 SECONDS_IN_HOUR: Final[int] = 3600
 # size data
-CENTER_SIZE: Final[int] = 8
-LINE_WIDTH: Final[int] = 6
 FONT = 'Helvetica'
 BUTTON_FONT_SIZE: Final[int] = 20
 CLOCK_FONT_SIZE: Final[int] = 24

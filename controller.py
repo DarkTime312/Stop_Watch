@@ -32,8 +32,7 @@ class StopWatchController:
             self.view.after(REFRESH_RATE, self.update_view)
 
     def stop(self):
-        self.model.clock_is_active.set(False)
-        self.model.get_stop_time()
+        self.model.pause_timing()
         self.view.buttons_frame.stop()
 
     def reset(self):

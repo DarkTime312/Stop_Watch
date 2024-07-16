@@ -112,7 +112,7 @@ class Clock(Canvas):
         clock_img = Image.open('assets/clock_project.png').resize((self.canvas_width - 15, self.canvas_height - 15))
         self.clock_img_tk = ImageTk.PhotoImage(clock_img)
         # Resize the clock handle photo and then rotate it 90 degrees
-        # To place it at 12 O'clock
+        # To place it at 12 O'clock position
         self.clock_handle = Image.open('assets/clock_handle.png')
         self.clock_handle = self.clock_handle.resize((self.canvas_width - 70, self.canvas_width - 70))
         self.clock_handle = self.clock_handle.rotate(90,
