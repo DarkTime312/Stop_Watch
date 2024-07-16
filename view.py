@@ -1,14 +1,15 @@
 # view.py
-import customtkinter as ctk
-from tkinter import Canvas
-from PIL import Image, ImageTk
-from settings import *
-from tkinter import ttk
-
 try:
     from ctypes import windll, byref, sizeof, c_int
 except:
     pass
+from tkinter import Canvas
+from typing import Literal
+
+import customtkinter as ctk
+from PIL import Image, ImageTk
+
+from settings import *
 
 
 def format_time(total_seconds: float) -> tuple[str, int]:
@@ -36,8 +37,8 @@ class StopWatchView(ctk.CTk):
         self.buttons_frame = None
         self.clock = None
         self.lap_frame = None
-        ctk.set_appearance_mode('dark')
         # Window setup
+        ctk.set_appearance_mode('dark')
         self.title('')
         self.geometry('300x600')
         self.iconbitmap('assets/empty.ico')
@@ -204,17 +205,14 @@ class ButtonsFrame(ctk.CTkFrame):
                                           font=font,
                                           )
         # Only add start and lap buttons to the screen
-        self.lap_button.grid(row=0, column=0, sticky='nsew', padx=10)
-        self.start_button.grid(row=0, column=1, sticky='nsew', padx=10)
+        self._button_layout(enable=['start', 'lap'])
 
     def start(self) -> None:
         # When user pressed the start button
         # Remove the start and reset buttons from screen
-        self.start_button.grid_forget()
-        self.reset_button.grid_forget()
-        # Add the stop and lap buttons
-        self.stop_button.grid(row=0, column=1, sticky='nsew', padx=10)
-        self.lap_button.grid(row=0, column=0, sticky='nsew', padx=10)
+        # And add the stop and lap buttons
+        self._button_layout(enable=['stop', 'lap'],
+                            disable=['start', 'reset'])
         # Change the state  and color of lap button
         self.lap_button.configure(state='normal', fg_color=ORANGE_DARK)
         self.start_button.configure(text='Resume')
@@ -223,21 +221,47 @@ class ButtonsFrame(ctk.CTkFrame):
     def stop(self) -> None:
         # When user pressed the stop button
         # Remove the stop and lap buttons from screen
-        self.stop_button.grid_forget()
-        self.lap_button.grid_forget()
         # Add the start and reset buttons
-        self.start_button.grid(row=0, column=1, sticky='nsew', padx=10)
-        self.reset_button.grid(row=0, column=0, sticky='nsew', padx=10)
+        self._button_layout(enable=['start', 'reset'],
+                            disable=['stop', 'lap'])
 
     def reset(self) -> None:
         # When user pressed the stop button
         # Remove the reset button from screen
-        self.reset_button.grid_forget()
-        # Add the lap button
-        self.lap_button.grid(row=0, column=0, sticky='nsew', padx=10)
+        # And add the lap button
+        self._button_layout(enable=['lap'],
+                            disable=['reset'])
+
         # Change the color and state of lap button
         self.lap_button.configure(state='disabled', fg_color=GREY)
         self.start_button.configure(text='Start')
+
+    def _button_layout(self,
+                       *,
+                       enable: list[Literal['start', 'stop', 'lap', 'reset']] | None = None,
+                       disable: list[Literal['start', 'stop', 'lap', 'reset']] | None = None
+                       ) -> None:
+        """
+        Manage the visibility and placement of buttons.
+
+        :param enable: List of buttons to enable and show
+        :param disable: List of buttons to hide
+        """
+
+        buttons = {
+            'start': (self.start_button, 0, 1),
+            'stop': (self.stop_button, 0, 1),
+            'lap': (self.lap_button, 0, 0),
+            'reset': (self.reset_button, 0, 0)
+        }
+        if enable:
+            for button in enable:
+                obj, row, col = buttons[button.lower()]
+                obj.grid(row=row, column=col, sticky='nsew', padx=10)
+        if disable:
+            for button in disable:
+                obj, _, _ = buttons[button.lower()]
+                obj.grid_forget()
 
 
 class LapsFrame(ctk.CTkScrollableFrame):
@@ -290,7 +314,7 @@ class LapObject(ctk.CTkFrame):
         self.columnconfigure((0, 1), weight=1)
 
     def create_widgets(self) -> None:
-        font: tuple[str, int] = (TEXT_FONT, CLOCK_FONT_SIZE)
+        font: tuple[str, int] = (TEXT_FONT, CLOCK_FONT_SIZE - 5)
         # A label that shows which lap we're on
         ctk.CTkLabel(self,
                      text=f'Lap {self.lap_number}',

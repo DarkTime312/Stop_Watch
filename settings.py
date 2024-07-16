@@ -11,10 +11,9 @@ CLOCK_FONT_SIZE: Final[int] = 24
 LAP_ITEM_HEIGHT: Final[int] = 85
 TEXT_FONT: Final[str] = 'JetBrains Mono'
 
-# Framerate
-FPS: Final[int] = 60
-FRAMERATE: Final[int] = int(1000 / FPS)
-REFRESH_RATE: Final[int] = 50
+# Frame rate
+FPS: Final[int] = 20
+REFRESH_RATE: Final[int] = int(1000 / FPS)
 
 # background color
 BLACK: Final[str] = '#000'

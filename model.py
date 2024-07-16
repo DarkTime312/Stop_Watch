@@ -1,5 +1,6 @@
 # model.py
 from time import time
+
 import customtkinter as ctk
 
 
