@@ -18,13 +18,14 @@ class StopWatchController:
         self.view.buttons_frame.lap_button.configure(command=self.create_lap)
 
     def start(self):
-        self.model.clock_is_active.set(True)
+        self.model.start_timing()
+        # Handle the UI elements in start mode
         self.view.buttons_frame.start()
-        self.model.check_for_offset()
-        # self.model.get_start_time()
         self.update_view()
 
     def update_view(self):
+        # If clock as active get the current elapsed time and pass it to view
+        # To show the updated time on the screen
         if self.model.clock_is_active.get():
             elapsed_time = self.model.get_elapsed_time()
             self.view.clock.update_clock(elapsed_time)
@@ -40,5 +41,5 @@ class StopWatchController:
         self.view.reset_app()
 
     def create_lap(self):
-        elapsed_time = self.model.get_elapsed_time()
+        elapsed_time: float = self.model.get_elapsed_time()
         self.view.lap_frame.create_lap_object(elapsed_time)

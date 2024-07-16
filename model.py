@@ -5,32 +5,41 @@ import customtkinter as ctk
 
 class StopWatchModel:
     def __init__(self):
-        self.offset_time: float = 0
         self.clock_is_active = ctk.BooleanVar(value=False)
-        self.time_stopped: None | float = None
-        self.offsets: list[float] = []
+        self.stop_time: None | float = None
         self.start_time = 0
+        self.total_offset_time: float = 0
 
-    def get_elapsed_time(self):
-        return time() - self.start_time - self.offset_time
+    def get_elapsed_time(self) -> float:
+        """
+        Calculates elapsed time since user started timing.
+        It will ignore any time spent in paused mode.
 
-    def check_for_offset(self):
-        if self.time_stopped:
-            now: float = time()
-            self.offsets.append(now - self.time_stopped)
-            self.offset_time = sum(self.offsets)
+        :return: Total elapsed time as seconds
+        """
+        return time() - self.start_time - self.total_offset_time
+
+    def start_timing(self):
+        # If user already paused before
+        if self.stop_time:
+            # Update the offset time
+            offset = time() - self.stop_time
+            self.total_offset_time += offset
+        # If timing for the first time
         else:
+            # Update the start time
             self.get_start_time()
+        # Set the state of clock as active
+        self.clock_is_active.set(True)
 
     def get_start_time(self):
         self.start_time = time()
 
     def get_stop_time(self):
-        self.time_stopped = time()
+        self.stop_time = time()
 
     def reset(self):
-        self.offset_time = 0
+        self.total_offset_time = 0
         self.clock_is_active = ctk.BooleanVar(value=False)
-        self.time_stopped: None | float = None
-        self.offsets: list[float] = []
+        self.stop_time: None | float = None
         self.start_time = 0

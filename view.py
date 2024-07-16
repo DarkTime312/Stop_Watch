@@ -11,11 +11,11 @@ except:
 
 
 def format_time(total_seconds: float) -> tuple[str, int]:
-    if total_seconds < 60:
+    if total_seconds < SECONDS_IN_MINUTE:
         total_seconds, milliseconds = divmod(total_seconds, 1)
         output_text: str = f"{int(total_seconds):02}.{int(milliseconds * 100):02}"
         font_size: int = CLOCK_FONT_SIZE
-    elif total_seconds < 3600:
+    elif total_seconds < SECONDS_IN_HOUR:
         minutes, remainder = divmod(total_seconds, 60)
         total_seconds, milliseconds = divmod(remainder, 1)
         output_text: str = f"{int(minutes):02}:{int(total_seconds):02}.{int(milliseconds * 100):02}"
@@ -93,9 +93,9 @@ class Clock(Canvas):
         self.grid(row=0, column=0, sticky='nsew')
         self.text_id: None | int = None
 
-        self.bind('<Configure>', self.configure_window)
+        self.bind('<Configure>', self.get_dimensions)
 
-    def configure_window(self, event):
+    def get_dimensions(self, event):
         # Get the dimensions of the canvas
         self.canvas_width: int = event.width
         self.canvas_height: int = event.height
@@ -122,7 +122,7 @@ class Clock(Canvas):
         # Place the clock handle at start position
         self.reset_clock_handle()
 
-    def update_clock(self, elapsed_seconds: float):
+    def update_clock(self, elapsed_seconds: float) -> None:
         # Rotate the handle image based on the elapsed time
         # Each second equals to 6 degrees
         # Had to be negative number to achieve the clockwise rotation
@@ -138,7 +138,10 @@ class Clock(Canvas):
         # Delete the previous label
         self.delete(self.text_id)
         # Place the text on the screen
-        self.text_id = self.create_text(self.center_x, self.center_y + 50, text=text, fill='red',
+        self.text_id = self.create_text(self.center_x,
+                                        self.center_y + 50,
+                                        text=text,
+                                        fill='red',
                                         font=(TEXT_FONT, font_size, 'bold'))
         # Update the clock handle position
         self.create_image(self.center_x, self.center_y, image=self.clock_handle_tk, anchor='center')
@@ -241,6 +244,15 @@ class LapsFrame(ctk.CTkScrollableFrame):
         self.grid(row=2, column=0, sticky='nsew')
         self.reset_lap_frame()
 
+    def reset_lap_frame(self) -> None:
+        # Set the number of laps to 0
+        self.lap_number = 0
+        # Hide the scrollbar until needed
+        self._scrollbar.configure(width=0)
+        # Remove the previous lap objects if they exist.
+        for widget in self.winfo_children():
+            widget.destroy()
+
     def create_lap_object(self, lap_time: float) -> None:
         # Increment the number of laps
         self.lap_number += 1
@@ -252,15 +264,6 @@ class LapsFrame(ctk.CTkScrollableFrame):
         formatted_time: str = format_time(lap_time)[0]
         # Create the lap object
         LapObject(self, self.lap_number, formatted_time)
-
-    def reset_lap_frame(self) -> None:
-        # Set the number of laps to 0
-        self.lap_number = 0
-        # Hide the scrollbar until needed
-        self._scrollbar.configure(width=0)
-        # Remove the previous lap objects if they exist.
-        for widget in self.winfo_children():
-            widget.destroy()
 
 
 class LapObject(ctk.CTkFrame):
