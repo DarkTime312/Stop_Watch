@@ -3,6 +3,7 @@ import customtkinter as ctk
 from tkinter import Canvas
 from PIL import Image, ImageTk
 from settings import *
+from tkinter import ttk
 
 try:
     from ctypes import windll, byref, sizeof, c_int
@@ -216,6 +217,7 @@ class ButtonsFrame(ctk.CTkFrame):
         self.lap_button.grid(row=0, column=0, sticky='nsew', padx=10)
         # Change the state  and color of lap button
         self.lap_button.configure(state='normal', fg_color=ORANGE_DARK)
+        self.start_button.configure(text='Resume')
 
     #
     def stop(self) -> None:
@@ -235,6 +237,7 @@ class ButtonsFrame(ctk.CTkFrame):
         self.lap_button.grid(row=0, column=0, sticky='nsew', padx=10)
         # Change the color and state of lap button
         self.lap_button.configure(state='disabled', fg_color=GREY)
+        self.start_button.configure(text='Start')
 
 
 class LapsFrame(ctk.CTkScrollableFrame):
@@ -257,13 +260,19 @@ class LapsFrame(ctk.CTkScrollableFrame):
         # Increment the number of laps
         self.lap_number += 1
         # If frame is large enough, bring back the scrollbar
-        if self.lap_number > 5:
+        if self.lap_number > 4:
             self._scrollbar.configure(width=16)
 
         # Get the formatted time 
         formatted_time: str = format_time(lap_time)[0]
         # Create the lap object
         LapObject(self, self.lap_number, formatted_time)
+        # Scroll to bottom after each lap is added
+        self.scroll_to_bottom()
+
+    def scroll_to_bottom(self) -> None:
+        self._parent_canvas.update_idletasks()
+        self._parent_canvas.yview_moveto(1)
 
 
 class LapObject(ctk.CTkFrame):
@@ -277,8 +286,8 @@ class LapObject(ctk.CTkFrame):
         self.create_widgets()
 
     def set_layout(self) -> None:
-        self.rowconfigure(0, weight=1, uniform='a')
-        self.columnconfigure((0, 1), weight=1, uniform='b')
+        self.rowconfigure((0, 1), weight=1)
+        self.columnconfigure((0, 1), weight=1)
 
     def create_widgets(self) -> None:
         font: tuple[str, int] = (TEXT_FONT, CLOCK_FONT_SIZE)
@@ -295,3 +304,7 @@ class LapObject(ctk.CTkFrame):
                      anchor='e',
                      font=font
                      ).grid(row=0, column=1, sticky='nsew')
+
+        # Add a custom frame as a separator with precise height control
+        separator = ctk.CTkFrame(self, height=3, fg_color=DARK_GREY)
+        separator.grid(row=1, column=0, columnspan=2, sticky='ew', pady=5, padx=5)

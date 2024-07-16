@@ -9,6 +9,7 @@ class StopWatchModel:
         self.stop_time: None | float = None
         self.start_time = 0
         self.total_offset_time: float = 0
+        self.latest_lap_elapsed_time = 0
 
     def get_elapsed_time(self) -> float:
         """
@@ -43,3 +44,4 @@ class StopWatchModel:
         self.clock_is_active = ctk.BooleanVar(value=False)
         self.stop_time: None | float = None
         self.start_time = 0
+        self.latest_lap_elapsed_time = 0

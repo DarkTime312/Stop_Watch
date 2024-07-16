@@ -42,4 +42,6 @@ class StopWatchController:
 
     def create_lap(self):
         elapsed_time: float = self.model.get_elapsed_time()
-        self.view.lap_frame.create_lap_object(elapsed_time)
+        lap_time = elapsed_time - self.model.latest_lap_elapsed_time
+        self.view.lap_frame.create_lap_object(lap_time)
+        self.model.latest_lap_elapsed_time = elapsed_time
