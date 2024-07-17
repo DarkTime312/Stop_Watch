@@ -5,9 +5,13 @@ SECONDS_IN_HOUR: Final[int] = 3600
 # size data
 FONT = 'Helvetica'
 BUTTON_FONT_SIZE: Final[int] = 20
-CLOCK_FONT_SIZE: Final[int] = 24
-LAP_ITEM_HEIGHT: Final[int] = 85
+
+CLOCK_FONT_SIZE_LARGE: Final[int] = 24
+CLOCK_FONT_SIZE_MEDIUM: Final[int] = 20
+CLOCK_FONT_SIZE_SMALL: Final[int] = 17
+
 TEXT_FONT: Final[str] = 'JetBrains Mono'
+SCROLL_BAR_WIDTH = 16
 
 # Frame rate
 FPS: Final[int] = 20
