@@ -1,0 +1,7 @@
+<RCC>
+  <qresource>
+    <file>assets/clock_handle.png</file>
+    <file>assets/clock_project.png</file>
+    <file>assets/empty.ico</file>
+  </qresource>
+</RCC>

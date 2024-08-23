@@ -4,13 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="56c786fd-3122-4b6f-ad05-5868aefdedda" name="Changes" comment="">
+    <list default="true" id="56c786fd-3122-4b6f-ad05-5868aefdedda" name="Changes" comment="v0.7">
+      <change afterPath="$PROJECT_DIR$/Pyside_version/assets/clock_handle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pyside_version/assets/clock_project.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pyside_version/assets/empty.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pyside_version/controller.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pyside_version/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pyside_version/model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pyside_version/settings.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pyside_version/ui.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pyside_version/view.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view.py" beforeDir="false" afterPath="$PROJECT_DIR$/view.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,19 +52,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.controller.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.tests.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/rozes/PycharmProjects/Stop_Watch&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.controller.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.tests.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/rozes/PycharmProjects/Stop_Watch/Pyside_version"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\rozes\PycharmProjects\Stop_Watch\Pyside_version" />
       <recent name="C:\Users\rozes\PycharmProjects\Stop_Watch" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -238,7 +243,15 @@
       <option name="project" value="LOCAL" />
       <updated>1721156034322</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="v0.7">
+      <option name="closed" value="true" />
+      <created>1721210520285</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1721210520285</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -252,6 +265,7 @@
     <MESSAGE value="v0.6.4" />
     <MESSAGE value="v0.6.5" />
     <MESSAGE value="v0.6.6" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.6.6" />
+    <MESSAGE value="v0.7" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.7" />
   </component>
 </project>
