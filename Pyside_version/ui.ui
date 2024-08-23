@@ -67,6 +67,10 @@ QPushButton#btn_lap:hover{
 	background-color: #4a3006;
 }
 
+QPushButton#btn_lap:pressed{
+	background-color: #332002;
+}
+
 QPushButton#btn_lap:disabled{
 	color: #bdbdbd;
 	background-color: #333333;
@@ -159,9 +163,9 @@ QWidget#scrollAreaWidgetContents{
      <widget class="QLabel" name="lbl_time">
       <property name="geometry">
        <rect>
-        <x>84</x>
+        <x>63</x>
         <y>180</y>
-        <width>121</width>
+        <width>160</width>
         <height>51</height>
        </rect>
       </property>
@@ -318,7 +322,7 @@ QWidget#scrollAreaWidgetContents{
          <bool>false</bool>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="page">
          <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -410,7 +414,7 @@ QWidget#scrollAreaWidgetContents{
       <item>
        <widget class="QStackedWidget" name="stacked_widget_right">
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="page_3">
          <layout class="QVBoxLayout" name="verticalLayout_4">

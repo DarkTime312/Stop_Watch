@@ -1,14 +1,15 @@
 # view.py
-from PySide6.QtCore import QFile, Qt, QSize, QTimer
-from PySide6.QtGui import QImage, QTransform, QPixmap, QColor, QPalette, QFont
-from PySide6.QtWidgets import QWidget
-from typing import Literal
 import time
-from PIL import Image, ImageTk
-from datetime import datetime
+from typing import Literal
+
+from PIL import Image
+from PySide6.QtCore import Qt, QTimer
+from PySide6.QtGui import QImage, QColor, QPalette, QFont
+from PySide6.QtWidgets import QWidget, QFrame, QHBoxLayout, QLabel, QVBoxLayout, QApplication
+from hPyT import *
+
 from settings import *
 from ui_ui import Ui_mainwindow
-from hPyT import *
 
 
 def format_time(total_seconds: float) -> tuple[str, int]:
@@ -62,6 +63,7 @@ def format_time(total_seconds: float) -> tuple[str, int]:
 class StopWatchView(QWidget):
     def __init__(self):
         super().__init__()
+        self.lap_number = 0
 
         self.ui = Ui_mainwindow()
         self.ui.setupUi(self)
@@ -70,6 +72,14 @@ class StopWatchView(QWidget):
         # self.timer.start()
         self.update_clock(0)
         self.activate_buttons(['start', 'lap'], lap_disabled=True)
+
+        # Create a widget to be the content of the scroll area
+        self.content_widget = QWidget()
+        self.laps_lyt = QVBoxLayout(self.content_widget)
+
+        self.ui.scrollArea.setWidget(self.content_widget)
+        self.ui.scrollArea.setWidgetResizable(True)
+        # LapObject(self.laps_lyt, 1, "2:15")
 
         # Window setup
         self.setWindowTitle(' ')
@@ -92,6 +102,7 @@ class StopWatchView(QWidget):
         window_palette = self.palette()
         window_palette.setColor(QPalette.ColorRole.Window, QColor('#000000'))
         self.setPalette(window_palette)
+        self.content_widget.setPalette(window_palette)
         title_bar_color.set(self, '#000000')  # sets the titlebar color to white
 
     def reset_app(self) -> None:
@@ -135,7 +146,7 @@ class StopWatchView(QWidget):
         # Get the formatted time text and appropriate font size
         text, font_size = format_time(elapsed_seconds)
         self.ui.lbl_time.setText(text)
-        self.ui.lbl_time.setFont(QFont(FONT, font_size, QFont.Weight.Bold))
+        self.ui.lbl_time.setFont(QFont(TEXT_FONT, font_size, QFont.Weight.Bold))
 
     def reset_clock_handle(self) -> None:
         """
@@ -213,3 +224,80 @@ class StopWatchView(QWidget):
         # Remove the reset button from screen
         # And add the lap button
         self.activate_buttons(['start', 'lap'], lap_disabled=True)
+        self.clear_lap_objects()
+
+    def clear_lap_objects(self):
+        for obj in [LapObject, QFrame]:
+            for wdg in self.ui.scrollArea.findChildren(obj):
+                wdg.deleteLater()
+        self.lap_number = 0
+
+    def create_lap_object(self, lap_time: float) -> None:
+        """
+        Create a new lap object and update the lap display.
+
+        Args:
+            lap_time: The time for the current lap in seconds.
+        """
+
+        # Increment the number of laps
+        self.lap_number += 1
+        # If frame is large enough, bring back the scrollbar
+        # if self.lap_number > 4:
+        #     self._scrollbar.configure(width=SCROLL_BAR_WIDTH)
+
+        # Get the formatted time
+        formatted_time: str = format_time(lap_time)[0]
+        # Create the lap object
+        LapObject(self.laps_lyt, self.lap_number, formatted_time)
+        QApplication.instance().processEvents()
+        QTimer.singleShot(50, self.scroll_to_bottom)
+
+    def scroll_to_bottom(self):
+        # Access the vertical scrollbar and set its value to maximum
+        scrollbar = self.ui.scrollArea.verticalScrollBar()
+        scrollbar.setValue(scrollbar.maximum())
+        print('scrolled to bottom')
+
+
+class LapObject(QFrame):
+    def __init__(self, scroll_area_layout, lap_number: int, formatted_time: str) -> None:
+        super().__init__()
+        self.lap_number = lap_number
+        self.formatted_time = formatted_time
+        self.scroll_area_layout = scroll_area_layout
+
+        self.setLayout(QHBoxLayout())
+
+        self.create_widgets()
+
+    def add_seperator(self):
+        separator = QFrame()
+        separator.setFrameShape(QFrame.Shape.HLine)  # Horizontal line
+        separator.setFrameShadow(QFrame.Shadow.Sunken)
+        separator.setLineWidth(1)
+        separator.setStyleSheet(f"background-color: {DARK_GREY}")
+        self.scroll_area_layout.addWidget(separator)
+
+    def create_widgets(self) -> None:
+        # font: tuple[str, int] = (TEXT_FONT, CLOCK_FONT_SIZE_MEDIUM)
+        # Add a custom frame as a separator (Only between the laps)
+        if self.lap_number > 1:
+            self.add_seperator()
+
+        self.scroll_area_layout.addWidget(self)
+
+        # A label that shows which lap we're on
+        lbl_number = QLabel(f'Lap {self.lap_number}')
+        lbl_number.setStyleSheet("color: white")
+        lbl_number.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        lbl_number.setFont(QFont(TEXT_FONT, 15))
+        self.layout().addWidget(lbl_number)
+
+        # A label that shows the lap time
+
+        lbl_time = QLabel(self.formatted_time)
+        lbl_time.setStyleSheet("color: white")
+        lbl_time.setAlignment(Qt.AlignmentFlag.AlignRight)
+        lbl_time.setFont(QFont(TEXT_FONT, 15))
+        self.layout().addWidget(lbl_time)

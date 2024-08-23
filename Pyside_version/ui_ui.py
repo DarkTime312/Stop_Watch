@@ -60,6 +60,10 @@ class Ui_mainwindow(object):
 "	background-color: #4a3006;\n"
 "}\n"
 "\n"
+"QPushButton#btn_lap:pressed{\n"
+"	background-color: #332002;\n"
+"}\n"
+"\n"
 "QPushButton#btn_lap:disabled{\n"
 "	color: #bdbdbd;\n"
 "	background-color: #333333;\n"
@@ -78,10 +82,10 @@ class Ui_mainwindow(object):
 "}\n"
 "\n"
 "/* Stop button */\n"
-"QPushButton[text=Stop]{\n"
+""
+                        "QPushButton[text=Stop]{\n"
 "	background-color: #331412;\n"
-"	color: #e5423d"
-                        ";\n"
+"	color: #e5423d;\n"
 "	border: 2px solid transparent;\n"
 "	border-radius: 5px;\n"
 "}\n"
@@ -133,7 +137,7 @@ class Ui_mainwindow(object):
         self.frm_clock.setLineWidth(0)
         self.lbl_time = QLabel(self.frm_clock)
         self.lbl_time.setObjectName(u"lbl_time")
-        self.lbl_time.setGeometry(QRect(84, 180, 121, 51))
+        self.lbl_time.setGeometry(QRect(63, 180, 160, 51))
         font = QFont()
         font.setFamilies([u"JetBrains Mono"])
         font.setPointSize(24)
@@ -294,8 +298,8 @@ class Ui_mainwindow(object):
 
         self.retranslateUi(mainwindow)
 
-        self.stacked_widget_left.setCurrentIndex(1)
-        self.stacked_widget_right.setCurrentIndex(1)
+        self.stacked_widget_left.setCurrentIndex(0)
+        self.stacked_widget_right.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(mainwindow)

@@ -15,7 +15,6 @@ class StopWatchController:
         self.timer.timeout.connect(self.update_view)
         self.timer.setInterval(REFRESH_RATE)
 
-
     def add_functionality(self) -> None:
         """
         Adds the responsible functions to the buttons.
@@ -26,7 +25,7 @@ class StopWatchController:
         self.view.ui.btn_stop.clicked.connect(self.stop)
         self.view.ui.btn_resume.clicked.connect(self.start)
         self.view.ui.btn_reset.clicked.connect(self.reset)
-        # self.view.buttons_frame.lap_button.configure(command=self.create_lap)
+        self.view.ui.btn_lap.clicked.connect(self.create_lap)
 
     def start(self) -> None:
         self.model.start_timing()
@@ -43,8 +42,6 @@ class StopWatchController:
         self.model.reset()
         self.view.reset_app()
 
-
-
     def update_view(self) -> None:
         # If clock is active get the current elapsed time and pass it to view
         # To show the updated time on the screen
@@ -53,3 +50,11 @@ class StopWatchController:
             self.view.update_clock(elapsed_time)
         else:
             self.timer.stop()
+
+    def create_lap(self) -> None:
+        elapsed_time: float = self.model.get_elapsed_time()
+        # Calculate the time between this lap and the last
+        lap_time = elapsed_time - self.model.previous_lap_elapsed_time
+        self.view.create_lap_object(lap_time)
+        # Store the current lap elapsed time for next lap calculations
+        self.model.previous_lap_elapsed_time = elapsed_time
