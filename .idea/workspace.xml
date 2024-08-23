@@ -4,17 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="56c786fd-3122-4b6f-ad05-5868aefdedda" name="Changes" comment="v0.7">
-      <change afterPath="$PROJECT_DIR$/Pyside_version/assets/clock_handle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pyside_version/assets/clock_project.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pyside_version/assets/empty.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pyside_version/controller.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pyside_version/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pyside_version/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pyside_version/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pyside_version/ui.ui" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pyside_version/view.py" afterDir="false" />
+    <list default="true" id="56c786fd-3122-4b6f-ad05-5868aefdedda" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Pyside_version/resource_rc.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pyside_version/ui_ui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pyside_version/assets/clock_handle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pyside_version/assets/clock_project.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pyside_version/assets/empty.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pyside_version/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pyside_version/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pyside_version/ui.ui" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/ui.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pyside_version/view.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/view.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +55,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.controller.executor": "Run",
+    "Python.main (1).executor": "Run",
     "Python.main.executor": "Run",
     "Python.tests.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -69,10 +70,11 @@
       <recent name="C:\Users\rozes\PycharmProjects\Stop_Watch" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\rozes\PycharmProjects\Stop_Watch\Pyside_version" />
       <recent name="C:\Users\rozes\PycharmProjects\Stop_Watch\assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.main (1)">
     <configuration name="controller" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Stop_Watch" />
       <option name="ENV_FILES" value="" />
@@ -87,6 +89,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/controller.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Stop_Watch" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Pyside_version" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Pyside_version/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -141,6 +165,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main (1)" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.controller" />
         <item itemvalue="Python.tests" />
@@ -251,7 +276,15 @@
       <option name="project" value="LOCAL" />
       <updated>1721210520285</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="pyside v0.1">
+      <option name="closed" value="true" />
+      <created>1724394717683</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1724394717683</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -266,6 +299,7 @@
     <MESSAGE value="v0.6.5" />
     <MESSAGE value="v0.6.6" />
     <MESSAGE value="v0.7" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.7" />
+    <MESSAGE value="pyside v0.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="pyside v0.1" />
   </component>
 </project>

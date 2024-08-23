@@ -32,6 +32,10 @@
   <property name="windowTitle">
    <string/>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resource.qrc">
+    <normaloff>:/assets/empty.ico</normaloff>:/assets/empty.ico</iconset>
+  </property>
   <property name="autoFillBackground">
    <bool>true</bool>
   </property>
@@ -98,7 +102,6 @@ QFrame#frm_clock{
 
 /* Clock handle */
 QLabel#lbl_clock_handle{
-image: url(:/assets/clock_handle.png);
 background-color: transparent
 }
 
