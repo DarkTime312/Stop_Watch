@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="56c786fd-3122-4b6f-ad05-5868aefdedda" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Pyside_version/resource_rc.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pyside_version/ui_ui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pyside_version/assets/clock_handle.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pyside_version/assets/clock_project.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pyside_version/assets/empty.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pyside_version/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pyside_version/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pyside_version/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Pyside_version/ui.ui" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/ui.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pyside_version/ui_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/ui_ui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Pyside_version/view.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/view.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,7 +56,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/rozes/PycharmProjects/Stop_Watch/Pyside_version"
+    "last_opened_file_path": "C:/Users/rozes/PycharmProjects/RandomCrap"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -284,7 +279,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724394717683</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="pyside v0.2">
+      <option name="closed" value="true" />
+      <created>1724402237705</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1724402237705</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -300,6 +303,7 @@
     <MESSAGE value="v0.6.6" />
     <MESSAGE value="v0.7" />
     <MESSAGE value="pyside v0.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="pyside v0.1" />
+    <MESSAGE value="pyside v0.2" />
+    <option name="LAST_COMMIT_MESSAGE" value="pyside v0.2" />
   </component>
 </project>

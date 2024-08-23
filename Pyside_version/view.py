@@ -70,9 +70,9 @@ class StopWatchView(QWidget):
         self.timer = QTimer()
         self.timer.timeout.connect(self.run_test)
         self.timer.setInterval(10)
-        self.timer.start()
-        # self.update_clock(0)
-
+        # self.timer.start()
+        self.update_clock(0)
+        self.activate_buttons(['start', 'lap'], lap_disabled=True)
 
         # Window setup
         self.setWindowTitle(' ')
@@ -81,18 +81,9 @@ class StopWatchView(QWidget):
     def load_image(self):
         # Load the image from QRC
         self.clock_handle_pillow = Image.fromqimage(QImage(':assets/clock_handle.png')).resize((200, 200)).rotate(90)
-        # self.clock_handle = QImage(':assets/clock_handle.png').scaled(QSize(200, 200))
-        # Rotate the image 90 degrees
-        # transform = QTransform().rotate(120)
-        # rotated_pixmap = self.clock_handle.transformed(transform, mode=Qt.TransformationMode.SmoothTransformation)
-        # self.ui.lbl_clock_handle.setPixmap(QPixmap(rotated_pixmap))
-        # print(self.ui.lbl_clock_handle.pixmap())
-        # self.ui.lbl_clock_handle.update()
-
 
     def run_test(self):
         self.update_clock(time.time())
-
 
     def change_title_bar_color(self) -> None:
         """
@@ -136,10 +127,58 @@ class StopWatchView(QWidget):
             - This method should be called periodically to update the clock display.
         """
 
-
-
         # Calculate the rotation angle for the clock handle
         # Negative value ensures clockwise rotation
         rotation_degree: float = elapsed_seconds * -6
 
-        self.ui.lbl_clock_handle.setPixmap(self.clock_handle_pillow.rotate(rotation_degree, resample=Image.BICUBIC).toqpixmap())
+        self.ui.lbl_clock_handle.setPixmap(
+            self.clock_handle_pillow.rotate(rotation_degree, resample=Image.BICUBIC).toqpixmap())
+
+    def reset_clock_handle(self) -> None:
+        """
+        Reset the clock handle to its initial position.
+
+        This method resets the clock display to show 0 seconds elapsed. It performs the following actions:
+        1. Calls the update_clock method with 0 seconds as the argument.
+        2. This effectively rotates the clock handle back to the 12 o'clock position.
+        3. Resets the digital time display to show 00.00.
+
+        This method is typically called when:
+        - The stopwatch is reset to zero.
+        - The clock is initially created and needs to be set to its starting position.
+
+        Returns:
+            None
+
+        Note:
+            This method relies on the update_clock method to perform the actual update of the clock display.
+        """
+        # Reset the position of clock handle to 0 seconds
+        self.update_clock(0)
+
+    def activate_buttons(self,
+                         button_list: list[Literal['start','resume', 'stop', 'lap', 'reset']],
+                         *,
+                         lap_disabled: bool | None = None
+                         ) -> None:
+        """
+        Manage the visibility and placement of buttons.
+
+        :param button_list: List of buttons to enable and show
+        :param lap_disabled: state of lap button
+        """
+
+        buttons = {
+            # 'button_name': (Button_object, stacked_widget, index)
+            'start': (self.ui.btn_start, self.ui.stacked_widget_right, 0),
+            'resume': (self.ui.btn_resume, self.ui.stacked_widget_right, 1),
+            'stop': (self.ui.btn_stop, self.ui.stacked_widget_right, 2),
+            'lap': (self.ui.btn_lap, self.ui.stacked_widget_left, 0),
+            'reset': (self.ui.btn_reset, self.ui.stacked_widget_left, 1)
+        }
+        for button in button_list:
+            obj, stacked_widget, idx = buttons[button.lower()]
+            stacked_widget.setCurrentIndex(idx)
+
+        if lap_disabled is not None:
+            self.ui.btn_lap.setDisabled(True if lap_disabled else False)

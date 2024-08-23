@@ -1,5 +1,6 @@
 from typing import Final
 
+
 SECONDS_IN_MINUTE: Final[int] = 60
 SECONDS_IN_HOUR: Final[int] = 3600
 # size data

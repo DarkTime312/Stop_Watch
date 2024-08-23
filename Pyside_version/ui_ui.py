@@ -34,32 +34,33 @@ class Ui_mainwindow(object):
         mainwindow.setWindowIcon(icon)
         mainwindow.setAutoFillBackground(True)
         mainwindow.setStyleSheet(u"/* Start and Resume buttons */\n"
-"QPushButton[text=Start],\n"
-"QPushButton[text=Resume]{\n"
+"QPushButton#btn_start,\n"
+"QPushButton#btn_resume{\n"
 "	background-color: #1b381e;\n"
 "	color: #6dba75;\n"
 "	border: 2px solid transparent;\n"
 "	border-radius: 5px;\n"
 "}\n"
 "\n"
-"QPushButton[text=Start]:hover,\n"
-"QPushButton[text=Resume]:hover{\n"
+"QPushButton#btn_start:hover,\n"
+"QPushButton#btn_resume:hover{\n"
 "	background-color: #2c5531;\n"
 "}\n"
 "\n"
+"\n"
 "/* Lap button */\n"
-"QPushButton[text=Lap]{\n"
+"QPushButton#btn_lap{\n"
 "	background-color: #332002;\n"
 "	color: #ea9209;\n"
 "	border: 2px solid transparent;\n"
 "	border-radius: 5px;\n"
 "}\n"
 "\n"
-"QPushButton[text=Lap]:hover{\n"
+"QPushButton#btn_lap:hover{\n"
 "	background-color: #4a3006;\n"
 "}\n"
 "\n"
-"QPushButton[text=Lap]:disabled{\n"
+"QPushButton#btn_lap:disabled{\n"
 "	color: #bdbdbd;\n"
 "	background-color: #333333;\n"
 "}\n"
@@ -79,8 +80,8 @@ class Ui_mainwindow(object):
 "/* Stop button */\n"
 "QPushButton[text=Stop]{\n"
 "	background-color: #331412;\n"
-"	color"
-                        ": #e5423d;\n"
+"	color: #e5423d"
+                        ";\n"
 "	border: 2px solid transparent;\n"
 "	border-radius: 5px;\n"
 "}\n"
@@ -178,7 +179,7 @@ class Ui_mainwindow(object):
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.btn_lap = QPushButton(self.page)
         self.btn_lap.setObjectName(u"btn_lap")
-        self.btn_lap.setEnabled(True)
+        self.btn_lap.setEnabled(False)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -294,7 +295,7 @@ class Ui_mainwindow(object):
         self.retranslateUi(mainwindow)
 
         self.stacked_widget_left.setCurrentIndex(1)
-        self.stacked_widget_right.setCurrentIndex(2)
+        self.stacked_widget_right.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(mainwindow)

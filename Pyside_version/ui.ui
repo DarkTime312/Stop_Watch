@@ -41,32 +41,33 @@
   </property>
   <property name="styleSheet">
    <string notr="true">/* Start and Resume buttons */
-QPushButton[text=Start],
-QPushButton[text=Resume]{
+QPushButton#btn_start,
+QPushButton#btn_resume{
 	background-color: #1b381e;
 	color: #6dba75;
 	border: 2px solid transparent;
 	border-radius: 5px;
 }
 
-QPushButton[text=Start]:hover,
-QPushButton[text=Resume]:hover{
+QPushButton#btn_start:hover,
+QPushButton#btn_resume:hover{
 	background-color: #2c5531;
 }
 
+
 /* Lap button */
-QPushButton[text=Lap]{
+QPushButton#btn_lap{
 	background-color: #332002;
 	color: #ea9209;
 	border: 2px solid transparent;
 	border-radius: 5px;
 }
 
-QPushButton[text=Lap]:hover{
+QPushButton#btn_lap:hover{
 	background-color: #4a3006;
 }
 
-QPushButton[text=Lap]:disabled{
+QPushButton#btn_lap:disabled{
 	color: #bdbdbd;
 	background-color: #333333;
 }
@@ -339,7 +340,7 @@ QWidget#scrollAreaWidgetContents{
           <item>
            <widget class="QPushButton" name="btn_lap">
             <property name="enabled">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -409,7 +410,7 @@ QWidget#scrollAreaWidgetContents{
       <item>
        <widget class="QStackedWidget" name="stacked_widget_right">
         <property name="currentIndex">
-         <number>2</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="page_3">
          <layout class="QVBoxLayout" name="verticalLayout_4">
