@@ -1,12 +1,10 @@
 # model.py
 from time import time
 
-import customtkinter as ctk
-
 
 class StopWatchModel:
     def __init__(self):
-        self.clock_is_active = ctk.BooleanVar(value=False)
+        self.clock_is_active = False
         self.start_time: float = 0
         self.pause_time: None | float = None
         self.total_offset_time: float = 0
@@ -33,11 +31,11 @@ class StopWatchModel:
             # Save the start time
             self.start_time = time()
         # Set the state of clock as active
-        self.clock_is_active.set(True)
+        self.clock_is_active = True
 
     def pause_timing(self) -> None:
         # Set the clock state to not active
-        self.clock_is_active.set(False)
+        self.clock_is_active = False
         # Storing the time which user paused
         # This will be used to calculate the offset when user resumes.
         self.pause_time = time()
@@ -49,7 +47,7 @@ class StopWatchModel:
         :return: None
         """
         self.total_offset_time = 0
-        self.clock_is_active.set(False)
+        self.clock_is_active = False
         self.pause_time: None | float = None
         self.start_time = 0
         self.previous_lap_elapsed_time = 0

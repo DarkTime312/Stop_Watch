@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="56c786fd-3122-4b6f-ad05-5868aefdedda" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pyside_version/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pyside_version/ui.ui" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/ui.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pyside_version/ui_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/ui_ui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pyside_version/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pyside_version/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Pyside_version/view.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pyside_version/view.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -287,7 +286,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724402237705</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="pyside v0.2.1">
+      <option name="closed" value="true" />
+      <created>1724412676416</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1724412676416</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -304,6 +311,7 @@
     <MESSAGE value="v0.7" />
     <MESSAGE value="pyside v0.1" />
     <MESSAGE value="pyside v0.2" />
-    <option name="LAST_COMMIT_MESSAGE" value="pyside v0.2" />
+    <MESSAGE value="pyside v0.2.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="pyside v0.2.1" />
   </component>
 </project>

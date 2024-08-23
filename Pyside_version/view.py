@@ -1,6 +1,6 @@
 # view.py
 from PySide6.QtCore import QFile, Qt, QSize, QTimer
-from PySide6.QtGui import QImage, QTransform, QPixmap, QColor, QPalette
+from PySide6.QtGui import QImage, QTransform, QPixmap, QColor, QPalette, QFont
 from PySide6.QtWidgets import QWidget
 from typing import Literal
 import time
@@ -67,9 +67,6 @@ class StopWatchView(QWidget):
         self.ui.setupUi(self)
         self.load_image()
 
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.run_test)
-        self.timer.setInterval(10)
         # self.timer.start()
         self.update_clock(0)
         self.activate_buttons(['start', 'lap'], lap_disabled=True)
@@ -104,7 +101,8 @@ class StopWatchView(QWidget):
         :return: None
         """
         # Reset the clock handle
-        self.clock.reset_clock_handle()
+        self.reset_clock_handle()
+        self.reset_clicked()
 
     def update_clock(self, elapsed_seconds: float) -> None:
         """
@@ -134,6 +132,11 @@ class StopWatchView(QWidget):
         self.ui.lbl_clock_handle.setPixmap(
             self.clock_handle_pillow.rotate(rotation_degree, resample=Image.BICUBIC).toqpixmap())
 
+        # Get the formatted time text and appropriate font size
+        text, font_size = format_time(elapsed_seconds)
+        self.ui.lbl_time.setText(text)
+        self.ui.lbl_time.setFont(QFont(FONT, font_size, QFont.Weight.Bold))
+
     def reset_clock_handle(self) -> None:
         """
         Reset the clock handle to its initial position.
@@ -157,7 +160,7 @@ class StopWatchView(QWidget):
         self.update_clock(0)
 
     def activate_buttons(self,
-                         button_list: list[Literal['start','resume', 'stop', 'lap', 'reset']],
+                         button_list: list[Literal['start', 'resume', 'stop', 'lap', 'reset']],
                          *,
                          lap_disabled: bool | None = None
                          ) -> None:
@@ -182,3 +185,31 @@ class StopWatchView(QWidget):
 
         if lap_disabled is not None:
             self.ui.btn_lap.setDisabled(True if lap_disabled else False)
+
+    def start_clicked(self) -> None:
+        """
+        Initiate or resume the stopwatch.
+
+        Updates UI for running state:
+        - Enables 'stop' and 'lap' buttons
+        - Disables 'start' and 'reset' buttons
+        - Activates lap button
+        - Changes start button text to 'Resume'
+        """
+
+        # When user pressed the start button
+        # Remove the start and reset buttons from screen
+        # And add the stop and lap buttons
+        self.activate_buttons(['stop', 'lap'], lap_disabled=False)
+
+    def stop_clicked(self) -> None:
+        # When user pressed the stop button
+        # Remove the stop and lap buttons from screen
+        # Add the start and reset buttons
+        self.activate_buttons(['resume', 'reset'])
+
+    def reset_clicked(self) -> None:
+        # When user pressed the stop button
+        # Remove the reset button from screen
+        # And add the lap button
+        self.activate_buttons(['start', 'lap'], lap_disabled=True)
